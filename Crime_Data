@@ -3,6 +3,10 @@ normalized_data<-scale(crime[,2:5])
 d<-dist(normalized_data,method = "euclidean")
 d
 
+
+###################   HIERARCHICAL  METHOD  ##################
+
+
 ## By Complete Method with k= 4
 fit<-hclust(d,method = "complete")
 plot(fit,hang = -1)
@@ -46,3 +50,26 @@ final_3<- data.frame(crime,cases_3)
 View(final_3)
 aggregate(crime[,c(-1,-6)],by=list(final_3$cases_3),mean)
 
+
+
+##################   K- MEANS   ####################
+
+library(animation)
+
+crime_kmeans<- kmeans(normalized_data,2)  ### k = 2
+crime_kmeans
+
+crime_kmeans$centers
+final_3<- data.frame(crime,crime_kmeans$cluster)
+View(final_3)
+aggregate(crime[,2:12],by = list(crime_kmeans$cluster),mean)
+
+km<- kmeans.ani(normalized_data,2)  ## By Animation
+
+## with k = 3
+crime_kmeans_1<- kmeans(normalized_data,5) ### k = 5
+final_4<- data.frame(crime,crime_kmeans_1$cluster)
+View(final_4)
+aggregate(crime[,2:12],by = list(crime_kmeans_1$cluster),mean)
+
+km_1<- kmeans.ani(normalized_data,5)
