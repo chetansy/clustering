@@ -4,6 +4,11 @@ airlines<- read.csv("C:/Users/Chetan Yewale/Downloads/EastWestAirlines.csv")
 normalize<- scale(airlines[,2:12])
 d<- dist(normalize,method = "euclidean")
 d
+
+
+
+###############    HIERARCHICAL METHOD    #######################
+
 ## By ward.D2 method with k = 3
 fit<- hclust(d,method = "ward.D2")
 plot(fit,hang = -1)
@@ -33,3 +38,30 @@ table(groups_2)
 membership_1<- as.matrix(groups_2)
 final_2<- data.frame(airlines,membership_1)
 View(final_2)
+aggregate(airlines[,c(-1,-13)],by=list(final_2$membership),mean)
+
+
+
+
+#####################   K - MEANS   ############################
+
+install.packages("animation")
+library(animation)
+
+airlines_kmeans<- kmeans(normalize,4)  ### k = 4
+airlines_kmeans
+
+airlines_kmeans$centers
+final_3<- data.frame(airlines,airlines_kmeans$cluster)
+View(final_3)
+aggregate(airlines[,2:12],by = list(airlines_kmeans$cluster),mean)
+
+km<- kmeans.ani(normalize,4)  ## By Animation
+
+## with k = 3
+airlines_kmeans_1<- kmeans(normalize,3)
+final_4<- data.frame(airlines,airlines_kmeans_1$cluster)
+View(final_4)
+aggregate(airlines[,2:12],by = list(airlines_kmeans_1$cluster),mean)
+
+km_1<- kmeans.ani(normalize,3)
