@@ -1,0 +1,46 @@
+crime<-read.csv("C:/Users/Chetan Yewale/Downloads/crime_data.csv")
+normalized_data<-scale(crime[,2:5])
+d<-dist(normalized_data,method = "euclidean")
+d
+
+## By Complete Method with k= 4
+fit<-hclust(d,method = "complete")
+plot(fit,hang = -1)
+rect.hclust(fit,k=4,border = "red")
+groups<-cutree(fit,k=4)
+cases<-as.matrix(groups)
+final<-data.frame(crime,cases)
+View(final)
+aggregate(crime[,-1],by=list(final$cases),mean)
+
+
+## By single method with k = 4
+fit_1<- hclust(d,method = "single")
+plot(fit_1,hang = -1)
+rect.hclust(fit_1,k = 4,border ="blue")
+groups_1<- cutree(fit_1,k = 4)
+cases_1<- as.matrix(groups_1)
+final_1<- data.frame(crime,cases_1)
+View(final_1)
+aggregate(crime[,-1],by=list(final_1$cases_1),mean)
+
+##By Average method with k = 5
+fit_2 <- hclust(d,method="average")
+plot(fit_2)
+rect.hclust(fit_2,k = 5,border = "green")
+groups_2<- cutree(fit_2,k= 5)
+cases_2<- as.matrix(groups_2)
+final_2<- data.frame(crime,cases_2)
+View(final_2)
+aggregate(crime[,-1],by=list(final_2$cases_2),mean)
+
+## By centroid method with k = 5
+fit_3<- hclust(d,method= "centroid")
+plot(fit_3,hang = -1)
+rect.hclust(fit_3,k = 5,border = "red")
+groups_3<- cutree(fit_3,k= 5)
+cases_3<- as.matrix(groups_3)
+final_3<- data.frame(crime,cases_3)
+View(final_3)
+aggregate(crime[,-1],by=list(final_3$cases_3),mean)
+
