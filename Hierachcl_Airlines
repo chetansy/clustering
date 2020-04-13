@@ -1,0 +1,35 @@
+
+airlines<- read.csv("C:/Users/Chetan Yewale/Downloads/EastWestAirlines.csv")
+
+normalize<- scale(airlines[,2:12])
+d<- dist(normalize,method = "euclidean")
+d
+## By ward.D2 method with k = 3
+fit<- hclust(d,method = "ward.D2")
+plot(fit,hang = -1)
+rect.hclust(fit,k = 3,border = "red")
+groups<- cutree(fit,k= 3)
+table(groups)
+membership<- as.matrix(groups)
+final<- data.frame(airlines,membership)
+View(final)
+
+## By ward.D2 method with k = 4
+fit_1<- hclust(d,method = "ward.D2")
+plot(fit_1,hang = -1)
+rect.hclust(fit_1,k = 4,border = "red")
+groups_1<- cutree(fit_1,k= 4)
+table(groups_1)
+membership<- as.matrix(groups_1)
+final_1<- data.frame(airlines,membership)
+View(final_1)
+
+## By average method with k = 2
+fit_2<- hclust(d, method = "average")
+plot(fit_2,hang = -1)
+rect.hclust(fit_2,k=2,border = "blue")
+groups_2<- cutree(fit_2,k = 2)
+table(groups_2)
+membership_1<- as.matrix(groups_2)
+final_2<- data.frame(airlines,membership_1)
+View(final_2)
