@@ -48,6 +48,11 @@ aggregate(airlines[,c(-1,-13)],by=list(final_2$membership),mean)
 install.packages("animation")
 library(animation)
 
+
+wss<-c()
+for(i in 2:10) wss[i]<-sum(kmeans(normalize,centers =i)$withinss)
+plot(1:10,wss,type = "b",xlab = "No. of clusters",ylab="Sum of Squares")
+
 airlines_kmeans<- kmeans(normalize,4)  ### k = 4
 airlines_kmeans
 
@@ -57,11 +62,3 @@ View(final_3)
 aggregate(airlines[,2:12],by = list(airlines_kmeans$cluster),mean)
 
 km<- kmeans.ani(normalize,4)  ## By Animation
-
-## with k = 3
-airlines_kmeans_1<- kmeans(normalize,3)
-final_4<- data.frame(airlines,airlines_kmeans_1$cluster)
-View(final_4)
-aggregate(airlines[,2:12],by = list(airlines_kmeans_1$cluster),mean)
-
-km_1<- kmeans.ani(normalize,3)
