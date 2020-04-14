@@ -56,7 +56,11 @@ aggregate(crime[,c(-1,-6)],by=list(final_3$cases_3),mean)
 
 library(animation)
 
-crime_kmeans<- kmeans(normalized_data,2)  ### k = 2
+wss<-c()
+for(i in 2:15) wss[i]<-sum(kmeans(normalized_data,centers =i)$withinss)
+plot(1:15,wss,type = "b",xlab = "No. of clusters",ylab="Sum of Squares")
+
+crime_kmeans<- kmeans(normalized_data,4)  ### k = 4 from elbow graph
 crime_kmeans
 
 crime_kmeans$centers
@@ -64,12 +68,4 @@ final_3<- data.frame(crime,crime_kmeans$cluster)
 View(final_3)
 aggregate(crime[,2:12],by = list(crime_kmeans$cluster),mean)
 
-km<- kmeans.ani(normalized_data,2)  ## By Animation
-
-## with k = 3
-crime_kmeans_1<- kmeans(normalized_data,5) ### k = 5
-final_4<- data.frame(crime,crime_kmeans_1$cluster)
-View(final_4)
-aggregate(crime[,2:12],by = list(crime_kmeans_1$cluster),mean)
-
-km_1<- kmeans.ani(normalized_data,5)
+km<- kmeans.ani(normalized_data,4)  ## By Animation
